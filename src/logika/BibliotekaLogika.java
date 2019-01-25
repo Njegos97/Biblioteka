@@ -44,8 +44,8 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 	public boolean izbrisi(Map<Integer, Object> lista, int key) {
 		// TODO Auto-generated method stub
 		
-		
-		return false;
+	    lista.remove(key);
+		return true;
 	}
 
 	@Override
@@ -53,6 +53,28 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		
 		return lista.get(key);
 		}
+	
+	
+public static int IznajmiKnjigu(Clan clan, Knjiga knjiga) {
+	
+        if (clan.getMojeKnjige().size() < Clan.MAKSIMALAN_BROJ_KNJIGA && knjiga.getIznajmljena() == false) {
+			clan.getMojeKnjige().add(knjiga);
+		    knjiga.setImeClana(clan.getIme());
+            knjiga.setIznajmljena(true);
+            return 0;
+		}
+		else if(clan.getMojeKnjige().size() >= Clan.MAKSIMALAN_BROJ_KNJIGA) {
+            return 1;
+	        }
+			
+			else {
+				return 2;
+			}
+			
+        
+}
+		
+		
 	
 	
 	

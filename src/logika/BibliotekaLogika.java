@@ -2,6 +2,7 @@ package logika;
 import java.util.*;
 import BibliotekaInterface.InterfaceZaBiblioteku;
 import entiteti.Clan;
+import entiteti.Knjiga;
 public class BibliotekaLogika implements InterfaceZaBiblioteku {
 	//nacin 1
 	 //static InterfaceZaBiblioteku generisiKey = new BibliotekaLogika();
@@ -40,17 +41,18 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 	}
 
 	@Override
-	public boolean izbrisi(Map<Integer, Object> lista) {
+	public boolean izbrisi(Map<Integer, Object> lista, int key) {
 		// TODO Auto-generated method stub
+		
 		
 		return false;
 	}
 
 	@Override
-	public Object pretraziListu(Map<Integer, Object> lista) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Object pretraziListu(Map<Integer, Object> lista, int key) {
+		
+		return lista.get(key);
+		}
 	
 	
 	

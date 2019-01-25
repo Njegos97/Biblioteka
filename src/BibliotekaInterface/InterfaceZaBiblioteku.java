@@ -11,7 +11,7 @@ public interface InterfaceZaBiblioteku  {
 	
 	public abstract boolean izbrisi(Map<Integer, Object> lista);
 	
-	public abstract Object pretraziListu(Map<Integer, Object> lista);
+	public abstract Object pretraziListu(Map<Integer, Object> lista, int key);
 
 	
 		

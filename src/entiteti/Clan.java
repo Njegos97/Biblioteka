@@ -1,6 +1,8 @@
 package entiteti;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Clan {
 	
@@ -9,7 +11,7 @@ public class Clan {
 	private String ime;
 	private String prezime;
 	private int id; 
-    private ArrayList<Knjiga> mojeKnjige = new ArrayList<>();
+    private Map<Integer, Knjiga> mojeKnjige = new LinkedHashMap<>();
 	
 	//Konstruktor
 	public Clan() {
@@ -37,7 +39,7 @@ public class Clan {
 	}
 
 	
-	public ArrayList<Knjiga> getMojeKnjige() {
+	public Map<Integer, Knjiga> getMojeKnjige() {
 		return mojeKnjige;
 	}
 
@@ -55,7 +57,7 @@ public class Clan {
 		this.id = id;
 	}
 	
-	public void setMojeKnjige(ArrayList<Knjiga> mojeKnjige) {
+	public void setMojeKnjige(Map<Integer, Knjiga> mojeKnjige) {
 		this.mojeKnjige = mojeKnjige;
 	}
 

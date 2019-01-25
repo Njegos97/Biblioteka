@@ -55,10 +55,10 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		}
 	
 	
-public static int IznajmiKnjigu(Clan clan, Knjiga knjiga) {
-	
+public static int IznajmiKnjigu(Clan clan, Knjiga knjiga, int key) {
+	   
         if (clan.getMojeKnjige().size() < Clan.MAKSIMALAN_BROJ_KNJIGA && knjiga.getIznajmljena() == false) {
-			clan.getMojeKnjige().add(knjiga);
+			clan.getMojeKnjige().put(key, knjiga);
 		    knjiga.setImeClana(clan.getIme());
             knjiga.setIznajmljena(true);
             return 0;
@@ -73,6 +73,17 @@ public static int IznajmiKnjigu(Clan clan, Knjiga knjiga) {
 			
         
 }
+
+public static boolean vratiKnjigu(Map<Integer, Knjiga> listaKnjiga, int key) {
+	 
+	 
+	 listaKnjiga.get(key).setIznajmljena(false);
+	 listaKnjiga.remove(key);
+	 
+	 return true;
+	
+	
+	 }
 		
 		
 	

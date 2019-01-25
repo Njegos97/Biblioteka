@@ -23,6 +23,18 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		   
 		    return true;
 			}
+	
+	public static boolean DodajKnjigu(Map<Integer, Knjiga> listaKnjiga, Knjiga knjiga) {
+        
+		Map lista = listaKnjiga;
+		InterfaceZaBiblioteku generisiKey = new BibliotekaLogika();
+	    int key = generisiKey.generisiKey(lista);
+		
+	    listaKnjiga.put(key, knjiga);
+	    
+	    
+	    return true;
+	}
 
 	@Override
 	public int generisiKey(Map<Integer, Object> lista) {

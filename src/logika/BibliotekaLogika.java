@@ -143,7 +143,7 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		
 	}
 	
-	public static boolean procitajKnjigeizFile(Map<Integer, Clan> listaKnjiga) throws FileNotFoundException{
+	public static boolean procitajKnjigeizFile(Map<Integer, Knjiga> listaKnjiga) throws FileNotFoundException{
 		File file = new File("SpisakKnjiga.txt");
 		
 		Scanner read = new Scanner(file);

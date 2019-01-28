@@ -9,7 +9,7 @@ public interface InterfaceZaBiblioteku  {
 
 	public abstract int generisiKey(Map<Integer, Object> lista);
 	
-	public abstract boolean izbrisi(Map<Integer, Object> lista);
+	public abstract boolean izbrisi(Map<Integer, Object> lista, int key);
 	
 	public abstract Object pretraziListu(Map<Integer, Object> lista, int key);
 

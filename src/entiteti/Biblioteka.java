@@ -49,5 +49,7 @@ public class Biblioteka {
 	public void setRadi(boolean radi) {
 		this.radi = radi;
 	}
+	
+	
 
 }

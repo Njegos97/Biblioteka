@@ -1,25 +1,22 @@
 package logika;
 
 import java.util.*;
-import BibliotekaInterface.InterfaceZaBiblioteku;
+
 import entiteti.Clan;
 import entiteti.Knjiga;
 import java.io.*;
 
-public class BibliotekaLogika implements InterfaceZaBiblioteku {
-	// nacin 1
-	// static InterfaceZaBiblioteku generisiKey = new BibliotekaLogika();
+public class BibliotekaLogika  {
+	
 
-	public static boolean registracija(LinkedHashMap<Integer, Clan> listaClanova, Clan clanKojiSeRegistruje) {
+	public static boolean registracija(Map<Integer, Clan> listaClanova, Clan clanKojiSeRegistruje) {
 
-		Map lista = listaClanova;
-		// nacin 2:
-		InterfaceZaBiblioteku generisiKey = new BibliotekaLogika();
-		int key = generisiKey.generisiKey(lista);
+		
+		
+		
+		int key = generisiKeyZaClana(listaClanova);
+		clanKojiSeRegistruje.setId(key);
 
-		// Nacin 3:
-		// BibliotekaLogika key = null;
-		// key.generisiKey(lista);
 
 		listaClanova.put(key, clanKojiSeRegistruje);
 
@@ -28,45 +25,16 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 
 	public static boolean DodajKnjigu(Map<Integer, Knjiga> listaKnjiga, Knjiga knjiga) {
 
-		Map lista = listaKnjiga;
-		InterfaceZaBiblioteku generisiKey = new BibliotekaLogika();
-		int key = generisiKey.generisiKey(lista);
+		
+		
+		int key = generisiKeyZaKnjigu(listaKnjiga);
 
 		listaKnjiga.put(key, knjiga);
 
 		return true;
 	}
 
-	@Override
-	public int generisiKey(Map<Integer, Object> lista) {
-		int key = lista.size() + 1;
-		for (int i = 0; i < lista.size(); i++) {
-			if (lista.containsKey(key)) {
-				key += 1;
-				/*
-				 * i = 0; ZA SAD RADI, POKUSAJ OVO U SLUCAJU NEKE GRESKE prodji opet kroz listu
-				 * ako bi opet bila knjiga sa istim id-om
-				 */
 
-			}
-		}
-
-		return key;
-	}
-
-	@Override
-	public boolean izbrisi(Map<Integer, Object> lista, int key) {
-		// TODO Auto-generated method stub
-
-		lista.remove(key);
-		return true;
-	}
-
-	@Override
-	public Object pretraziListu(Map<Integer, Object> lista, int key) {
-
-		return lista.get(key);
-	}
 
 	public static int IznajmiKnjigu(Clan clan, Knjiga knjiga, int key) {
 
@@ -85,12 +53,12 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 
 	}
 
-	public static boolean vratiKnjigu(Map<Integer, Knjiga> listaKnjiga, int key) {
+	public static Knjiga vratiKnjigu(Map<Integer, Knjiga> listaKnjiga, int key) {
 
 		listaKnjiga.get(key).setIznajmljena(false);
-		listaKnjiga.remove(key);
+		return listaKnjiga.remove(key);
 
-		return true;
+		
 
 	}
 
@@ -102,7 +70,11 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 			int key = (int) listaKnjiga.keySet().toArray()[i];
 			pw.print(key);
 			String nazivKnjige = listaKnjiga.get(key).getIme();
-			pw.println(nazivKnjige);
+			pw.print(" " + nazivKnjige);
+			boolean iznajmljena = listaKnjiga.get(key).getIznajmljena();
+			pw.print(" " + iznajmljena);
+			String imeClanaKojiJeIznajmioKnjigu= listaKnjiga.get(key).getImeClana();
+			pw.println(" " + imeClanaKojiJeIznajmioKnjigu);
 		}
 		pw.close();
 
@@ -113,27 +85,38 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		File file = new File("SpisakClanova.txt");
 
 		PrintWriter pw = new PrintWriter(file);
+		
 		for (int i = 0; i < listaClanova.size(); i++) {
 			int key = (int) listaClanova.keySet().toArray()[i];
 			pw.print(key);
 			String nazivClana = listaClanova.get(key).getIme();
-			pw.println(nazivClana);
+			pw.print(" " + nazivClana);
+			String prezimeClana = listaClanova.get(key).getPrezime();
+			pw.println(" " + prezimeClana);
+			
 		}
 		pw.close();
 
 		return true;
 	}
 	
-	public static boolean procitajClanoveizFile(Map<Integer, Clan> listaClanova) throws FileNotFoundException{
+	public static boolean procitajClanoveizFile(Map<Integer, Clan> listaClanova, Clan clan) throws FileNotFoundException{
 		File file = new File("SpisakClanova.txt");
 		
 		Scanner read = new Scanner(file);
 		
 		while(read.hasNext()) {
-			int key = read.nextInt();
-			System.out.print(key);
-			String ime = read.next();
-			System.out.println(ime);
+			 clan = new Clan();
+			 int id = read.nextInt();
+		     clan.setId(id);
+		     String ime = read.next();
+		     clan.setIme(ime);
+		     String prezime = read.next();
+		     clan.setPrezime(prezime);
+		     
+		    registracija(listaClanova, clan);
+			
+			//listaClanova.put(id, clan);
 		}
 		
 		read.close();
@@ -143,16 +126,25 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		
 	}
 	
-	public static boolean procitajKnjigeizFile(Map<Integer, Knjiga> listaKnjiga) throws FileNotFoundException{
+	public static boolean procitajKnjigeizFile(Map<Integer, Knjiga> listaKnjiga, Knjiga knjiga) throws FileNotFoundException{
 		File file = new File("SpisakKnjiga.txt");
 		
 		Scanner read = new Scanner(file);
 		
 		while(read.hasNext()) {
+			knjiga = new Knjiga();
 			int key = read.nextInt();
-			System.out.print(key);
+			knjiga.setId(key);
 			String ime = read.next();
-			System.out.println(ime);
+			knjiga.setIme(ime);
+			boolean iznajmljena = read.nextBoolean();
+			knjiga.setIznajmljena(iznajmljena);
+			String imeClanaKojiJeiznajmioKnjigu = read.next();
+			knjiga.setImeClana(imeClanaKojiJeiznajmioKnjigu);
+			
+			
+			DodajKnjigu(listaKnjiga, knjiga);
+			
 		}
 		
 		read.close();
@@ -161,6 +153,63 @@ public class BibliotekaLogika implements InterfaceZaBiblioteku {
 		
 		
 	}
+	
+	public static int generisiKeyZaClana(Map<Integer, Clan> lista) {
+		int key = lista.size() + 1;
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.containsKey(key)) {
+				key += 1;
+				/*
+				 * i = 0; ZA SAD RADI, POKUSAJ OVO U SLUCAJU NEKE GRESKE prodji opet kroz listu
+				 * ako bi opet bila knjiga sa istim id-om
+				 */
+
+			}
+		}
+
+		return key;
+	}
+	
+	public static int generisiKeyZaKnjigu(Map<Integer, Knjiga> lista) {
+		int key = lista.size() + 1;
+		for (int i = 0; i < lista.size(); i++) {
+			if (lista.containsKey(key)) {
+				key += 1;
+				/*
+				 * i = 0; ZA SAD RADI, POKUSAJ OVO U SLUCAJU NEKE GRESKE prodji opet kroz listu
+				 * ako bi opet bila knjiga sa istim id-om
+				 */
+
+			}
+		}
+
+		return key;
+	}
+	
+	public static Clan izbrisiClana(Map<Integer, Clan> lista, int key) {
+	
+       return lista.remove(key);
+		
+	}
+	
+	public static Knjiga izbrisiKnjigu(Map<Integer, Knjiga> lista, int key) {
+		
+        return lista.remove(key);
+		
+	}
+	
+
+	public  static Clan pronadjiClana(Map<Integer, Clan> map, int key) {
+
+		return map.get(key);
+	}
+	
+	public  static Knjiga pronadjiKnjigu(Map<Integer, Knjiga> map, int key) {
+
+		return map.get(key);
+	}
+	
+	
 	
 
 }

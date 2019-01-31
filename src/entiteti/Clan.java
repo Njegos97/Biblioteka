@@ -61,6 +61,11 @@ public class Clan {
 		this.mojeKnjige = mojeKnjige;
 	}
 
+	@Override
+	public String toString() {
+		return "[ime=" + ime + ", prezime=" + prezime + ", id=" + id + ", mojeKnjige=" + mojeKnjige + "]";
+	}
+
 	
 
 }
